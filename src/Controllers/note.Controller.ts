@@ -4,6 +4,7 @@ import mssql from "mssql";
 import { Note } from "../Interfaces/noteinterface";
 import { sqlConfig } from "../Config/sql.config";
 
+
 export const createNote = async (req: Request, res: Response) => {
   try {
     let id = v4();
@@ -48,7 +49,7 @@ export const getnotebyId = async (req: Request, res: Response) => {
     const pool = await mssql.connect(sqlConfig);
 
     let note = (
-      await pool.request().input("user_id", id).execute("getnotebyId")
+      await pool.request().input("note_id", id).execute("getnotebyId")
     ).recordset;
 
     return res.json({
@@ -56,5 +57,61 @@ export const getnotebyId = async (req: Request, res: Response) => {
     });
   } catch (error) {
     return res.json({ error });
+  }
+};
+
+export const updateNote = async (req: Request, res: Response) => {
+  try {
+    let id = req.params.id;
+
+    const { Title, Content, CreatedAt }: Note = req.body;
+
+    const pool = await mssql.connect(sqlConfig);
+
+    const result = (
+      await pool
+        .request()
+        .input("note_id", mssql.NVarChar, id)
+        .input("Title", mssql.NVarChar, Title)
+        .input("Content", mssql.Text, Content)
+        .input("CreatedAt", mssql.DateTime2, CreatedAt)
+        .execute("updateNote")
+    ).rowsAffected;
+
+    console.log(result);
+
+    return res.status(200).json({
+      message: "Note updated successfully",
+    });
+  } catch {
+    return res.status(400).json({ message: "Failed to update Note" });
+  }
+};
+
+export const deleteNote = async (req: Request, res: Response) => {
+  try {
+    let id = req.params.id;
+
+    const { Title, Content, CreatedAt }: Note = req.body;
+
+    const pool = await mssql.connect(sqlConfig);
+
+    const result = (
+      await pool
+        .request()
+        .input("note_id", mssql.NVarChar, id)
+        .input("Title", mssql.NVarChar, Title)
+        .input("Content", mssql.Text, Content)
+        .input("CreatedAt", mssql.DateTime2, CreatedAt)
+        .execute("deleteNote")
+    ).rowsAffected;
+
+    console.log(result);
+
+    return res.status(200).json({
+      message: "Note Deleted successfully",
+    });
+  } catch {
+    return res.status(400).json({ message: "Failed to Delete Note" });
   }
 };

@@ -1,4 +1,4 @@
-## Create  User
+## Create  Note
 POST http://localhost:3005/notes
 Content-Type: application/json
 
@@ -8,3 +8,28 @@ Content-Type: application/json
   "Content": "string",
   "CreatedAt": "string",
 }
+
+##GetAllNotes
+GET http://localhost:3005/notes
+
+## Update Note
+
+PUT http://localhost:3005/notes/update/:id
+Content-Type: application/json
+
+{
+  
+  "Title": "string",
+  "Content": "string",
+  "CreatedAt": "string",
+}
+
+
+##Getby id
+GET  http://localhost:3005/notes/:id
+
+DELETE  http://localhost:3005/notes/delete/:id
+Content-Type: application/json
+
+
+
