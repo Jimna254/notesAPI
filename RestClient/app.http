@@ -1,0 +1,10 @@
+## Create  User
+POST http://localhost:3005/notes
+Content-Type: application/json
+
+{
+  
+  "Title": "string",
+  "Content": "string",
+  "CreatedAt": "string",
+}
